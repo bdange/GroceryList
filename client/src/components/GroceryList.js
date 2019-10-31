@@ -1,57 +1,147 @@
 import React, { Component } from "react";
 import { Container, ListGroup, ListGroupItem, Button } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { connect } from "react-redux";
-import { getItems, deleteItem } from "../actions/itemActions";
-import PropTypes from "prop-types";
+import Axios from "axios";
 
 class ShoppingList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: [
+        {
+          _id: "",
+          name: "",
+          isCompleted: ""
+        }
+      ],
+      newItemName: "",
+      token: localStorage.getItem("token")
+    };
+    this.onEditClick = this.onEditClick.bind(this);
+    this.onDeleteClick = this.onDeleteClick.bind(this);
+  }
+
   componentDidMount() {
     this.props.getItems();
   }
 
-  onDeleteClick = id => {
-    this.props.deleteItem(id);
-  };
+  getItems() {
+    Axios.get("/api/items").then(res => {
+      this.setState({
+        items: res.data
+      });
+    });
+  }
+
+  handleChange(e) {
+    this.setState({ newItemName: e.target.value });
+  }
+
+  addItem(e) {
+    e.preventDefault();
+    if (!this.state.newItemName) {
+      return;
+    }
+    const newItem = { name: this.state.newItemName, isCompleted: false };
+    const token = this.state.token;
+    const config = {
+      headers: {
+        "Content-type": "application/json"
+      }
+    };
+    if (token) {
+      config.headers["x-auth-token"] = token;
+    }
+    Axios.post("/api/items", newItem, config)
+      .then(res => {
+        this.setState({
+          items: [...this.state.items, newItem],
+          newItemName: ""
+        });
+        this.getItems();
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  }
+
+  onDeleteClick(_id) {
+    const token = this.state.token;
+    const config = {
+      headers: {
+        "Content-type": "application/json"
+      }
+    };
+    if (token) {
+      config.headers["x-auth-token"] = token;
+    }
+    Axios.delete(`/api/items/${_id}`, config)
+      .then(res => {
+        this.getItems();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  onEditClick(item, _id) {
+    const token = this.state.token;
+    const config = {
+      headers: {
+        "Content-type": "application/json"
+      }
+    };
+    if (token) {
+      config.headers["x-auth-token"] = token;
+    }
+    Axios.put(
+      `/api/items/${_id}`,
+      {
+        _id: item._id,
+        name: item.name
+      },
+      config
+    )
+      .then(res => {
+        this.getItems();
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  }
 
   render() {
-    const { items } = this.props.item;
     return (
-      <Container>
+      <div className="App" style={{ maxWidth: "80%", marginLeft: "10%" }}>
         <ListGroup>
-          <TransitionGroup className="ShoopingList">
-            {items.map(({ _id, name }) => (
-              <CSSTransition key={_id} timeout={500} classNames="fade">
-                <ListGroupItem>
-                  <Button
-                    className="remove-btn"
-                    color="danger"
-                    size="sm"
-                    onClick={this.onDeleteClick.bind(this, _id)}
-                  >
-                    Delete
-                  </Button>
-                  {name}
-                </ListGroupItem>
-              </CSSTransition>
-            ))}
-          </TransitionGroup>
+          {this.state.items.map((item, index) => (
+            <ListGroupItem
+              key={index}
+              style={{ marginBotton: "0.5rem", textAlign: "center" }}
+            >
+              <Item
+                key={index}
+                name={item.name}
+                id={item._id}
+                isCompleted={item.isCompleted}
+                toggleComplete={() => this.toggleComplete(index, item)}
+                onDeleteClick={() => this.onDeleteClick(item._id)}
+                onEditClick={() => this.onEditClick(item, item._id)}
+              />
+            </ListGroupItem>
+          ))}
         </ListGroup>
-      </Container>
+        <form onSubmit={e => this.addItem(e)}>
+          <input
+            type="text"
+            value={this.state.newItemName}
+            onChange={e => this.handleChange(e)}
+          />
+          <input type="submit" />
+        </form>
+      </div>
     );
   }
 }
 
-ShoppingList.propTypes = {
-  getItems: PropTypes.func.isRequired,
-  item: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-  item: state.item
-});
-
-export default connect(
-  mapStateToProps,
-  { getItems, deleteItem }
-)(ShoppingList);
+export default GroceryList;

@@ -1,5 +1,9 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AppNavBar from "./components/AppNavbar";
+import Landing from "./components/Landing";
+import Login from "./components/Login";
+import Register from "./components/Register";
 import GroceryList from "./components/GroceryList";
 import ItemModal from "./components/ItemModal";
 import { Container } from "reactstrap";
@@ -12,15 +16,26 @@ import "./App.css";
 
 function App() {
   return (
-    <Provider store={store}>
-      <div className="App">
-        <AppNavBar />
-        <Container>
-          <ItemModal />
-          <GroceryList />
-        </Container>
-      </div>
-    </Provider>
+    <Router>
+      <Provider store={store}>
+        <div className="App">
+          <AppNavBar />
+          <div className="background">
+            <Route exact path="/" component={Landing} />
+            <section className="container">
+              <Switch>
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
+              </Switch>
+            </section>
+            <Container>
+              <ItemModal />
+              <GroceryList />
+            </Container>
+          </div>
+        </div>
+      </Provider>
+    </Router>
   );
 }
 

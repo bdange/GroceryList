@@ -11,15 +11,22 @@ import {
 } from "reactstrap";
 
 class AppNavbar extends Component {
-  state = {
-    isOpen: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: false
+    };
+  }
 
   toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
     });
   };
+
+  Logout() {
+    localStorage.removeItem("token");
+  }
 
   render() {
     return (
@@ -28,13 +35,7 @@ class AppNavbar extends Component {
           <Container>
             <NavbarBrand href="/">GroceryList</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className="ml-auto" navbar>
-                <NavItem>
-                  <NavLink></NavLink>
-                </NavItem>
-              </Nav>
-            </Collapse>
+            <Collapse isOpen={this.state.isOpen} navbar />
           </Container>
         </Navbar>
       </div>

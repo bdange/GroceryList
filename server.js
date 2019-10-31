@@ -4,18 +4,22 @@ const bodyParser = require("body-parser");
 
 const items = require("./routes/api/items");
 
+const users = require("./routes/api/users");
+
 const app = express();
 
 app.get("/", (req, res) => res.send("API Running"));
 
-app.use(bodyParser.json());
+app.use(express.json({ extended: false }));
 
-const db = require("./config/keys").mongoURI;
+const db = require("./config/default").mongoURI;
 
 mongoose
   .connect(db)
   .then(() => console.log("MongoDB Connected..."))
   .catch(err => console.log(err));
+
+app.use("/api/users", users);
 
 app.use("/api/items", items);
 
