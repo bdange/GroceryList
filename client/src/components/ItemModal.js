@@ -49,19 +49,21 @@ class ItemModal extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Edit Item</ModalHeader>
           <ModalBody>
-            <FormGroup>
-              <Label for="item">Item</Label>
-              <Input
-                type="text"
-                name="name"
-                id="item"
-                placeholder="New Item"
-                onChange={this.onChange}
-              ></Input>
-              <Button color="dark" style={{ marginTop: "2rem" }} block>
-                Save
-              </Button>
-            </FormGroup>
+            <Form onSubmit={e => this.onSubmit(e)}>
+              <FormGroup>
+                <Label for="item">Item</Label>
+                <Input
+                  type="text"
+                  name="name"
+                  id="item"
+                  placeholder="New Item"
+                  onChange={this.onChange}
+                ></Input>
+                <Button color="dark" style={{ marginTop: "2rem" }} block>
+                  Save
+                </Button>
+              </FormGroup>
+            </Form>
           </ModalBody>
         </Modal>
       </div>

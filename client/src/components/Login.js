@@ -6,8 +6,7 @@ class Login extends Component {
     super(props);
     this.state = {
       email: "",
-      password: "",
-      user: undefined
+      password: ""
     };
   }
 
@@ -16,7 +15,7 @@ class Login extends Component {
   }
 
   onSubmit(e) {
-    e.prevenDefault();
+    e.preventDefault();
     const User = {
       email: this.state.email,
       password: this.state.password
@@ -24,7 +23,7 @@ class Login extends Component {
     Axios.post("/api/users/auth", User)
       .then(res => {
         console.log("user signed in");
-        // console.log(res);
+        console.log(res);
         localStorage.setItem("token", res.data.token);
         window.location.reload();
       })
@@ -36,7 +35,7 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <h2>Login to access your shared Shopping List</h2>
+        <h2>Login to access your shared Grocery List</h2>
         <form onSubmit={e => this.onSubmit(e)}>
           <input
             type="email"

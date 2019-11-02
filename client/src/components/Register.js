@@ -41,14 +41,14 @@ class Register extends Component {
             type="email"
             name="email"
             value={this.state.email}
-            placeholder={"Enter New Email"}
+            placeholder={"Enter Email"}
             onChange={e => this.handleChange(e)}
           />
           <input
             type="password"
             name="password"
             value={this.state.password}
-            placeholder={"Enter New Password"}
+            placeholder={"Enter Password"}
             onChange={e => this.handleChange(e)}
           />
           <input type="submit" />

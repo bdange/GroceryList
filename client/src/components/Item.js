@@ -60,7 +60,6 @@ class Item extends Component {
         >
           Delete
         </Button>
-        />
         <Button color="primary" size="sm" onClick={this.toggle}>
           Edit Item
         </Button>
@@ -76,7 +75,7 @@ class Item extends Component {
                   id="item"
                   placeholder="New Item"
                   onChange={this.onChange}
-                ></Input>
+                />
                 <Button color="dark" style={{ marginTop: "2rem" }} block>
                   Save
                 </Button>

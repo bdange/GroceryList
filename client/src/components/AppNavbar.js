@@ -33,9 +33,17 @@ class AppNavbar extends Component {
       <div>
         <Navbar color="dark" dark expand="sm" className="mb-5">
           <Container>
-            <NavbarBrand href="/">GroceryList</NavbarBrand>
+            <NavbarBrand href="/">Grocery List</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar />
+            <Collapse isOpen={this.state.isOpen} navbar>
+              <Nav className="ml-auto" navbar>
+                <NavItem>
+                  <NavLink href="/" onClick={this.Logout}>
+                    Log Out
+                  </NavLink>
+                </NavItem>
+              </Nav>
+            </Collapse>
           </Container>
         </Navbar>
       </div>
