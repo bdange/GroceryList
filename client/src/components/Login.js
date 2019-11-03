@@ -37,20 +37,24 @@ class Login extends Component {
       <div>
         <h2>Login to access your shared Grocery List</h2>
         <form onSubmit={e => this.onSubmit(e)}>
-          <input
-            type="email"
-            name="email"
-            value={this.state.email}
-            placeholder={"Enter your email"}
-            onChange={e => this.handleChange(e)}
-          />
-          <input
-            type="password"
-            name="password"
-            value={this.state.password}
-            placeholder={"Enter password"}
-            onChange={e => this.handleChange(e)}
-          />
+          <div class="form-group">
+            <input
+              type="email"
+              name="email"
+              value={this.state.email}
+              placeholder={"Enter your email"}
+              onChange={e => this.handleChange(e)}
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              name="password"
+              value={this.state.password}
+              placeholder={"Enter password"}
+              onChange={e => this.handleChange(e)}
+            />
+          </div>
           <input type="submit" />
         </form>
       </div>

@@ -37,20 +37,24 @@ class Register extends Component {
       <div>
         <h3>Register as first time user</h3>
         <form onSubmit={e => this.onSubmit(e)}>
-          <input
-            type="email"
-            name="email"
-            value={this.state.email}
-            placeholder={"Enter Email"}
-            onChange={e => this.handleChange(e)}
-          />
-          <input
-            type="password"
-            name="password"
-            value={this.state.password}
-            placeholder={"Enter Password"}
-            onChange={e => this.handleChange(e)}
-          />
+          <div class="form-group">
+            <input
+              type="email"
+              name="email"
+              value={this.state.email}
+              placeholder={"Enter Email"}
+              onChange={e => this.handleChange(e)}
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              name="password"
+              value={this.state.password}
+              placeholder={"Enter Password"}
+              onChange={e => this.handleChange(e)}
+            />
+          </div>
           <input type="submit" />
         </form>
       </div>
